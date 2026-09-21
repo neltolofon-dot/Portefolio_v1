@@ -1,0 +1,835 @@
+﻿<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tolofon Nelka&euml;l | Portfolio</title>
+    <meta name="description" content="Portfolio de Tolofon Nelka&euml;l, developpeur frontend et analyste cybersecurite junior base au Benin. Interfaces web modernes, rapides et securisees.">
+    <meta name="keywords" content="Tolofon Nelka&euml;l, developpeur frontend, analyste cybersecurite junior, React, Vite, UI UX, SOC, SIEM, Benin, portfolio">
+    <meta name="author" content="Tolofon Nelka&euml;l">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="icon" type="image/png" href="images/nelkael-header.png">
+    <link rel="apple-touch-icon" href="images/nelkael-header.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                fontFamily: {
+                    sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    display: ['"Space Grotesk"', 'sans-serif'],
+                },
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#4f46e5',
+                        dark: '#050505',
+                        surface: '#0a0a0a',
+                        whatsapp: '#25D366',
+                    },
+                    animation: {
+                        'fade-up': 'fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
+                        'marquee': 'marquee 30s linear infinite',
+                        'spin-slow': 'spin 15s linear infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'text-reveal': 'textReveal 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
+                    },
+                    keyframes: {
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)', filter: 'blur(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)', filter: 'blur(0)' },
+                        },
+                        textReveal: {
+                            '0%': { transform: 'translateY(100%)' },
+                            '100%': { transform: 'translateY(0)' },
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- External Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-dark dark:text-slate-200 transition-colors duration-500 selection:bg-primary selection:text-white overflow-x-hidden">
+
+    <!-- [NEW] Noise Texture Overlay -->
+    <div class="fixed inset-0 z-[1] bg-noise pointer-events-none opacity-40 mix-blend-overlay"></div>
+
+    <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 z-[9999] bg-slate-50 dark:bg-dark flex items-center justify-center">
+        <div class="flex flex-col items-center gap-4">
+            <div class="relative w-16 h-16">
+                <div class="absolute inset-0 border-4 border-slate-200 dark:border-white/10 rounded-full"></div>
+                <div class="absolute inset-0 border-4 border-primary rounded-full border-t-transparent animate-spin"></div>
+            </div>
+            <span class="text-sm font-bold tracking-widest uppercase animate-pulse">Chargement...</span>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Background Elements -->
+    <div class="fixed inset-0 z-0 bg-grid-pattern pointer-events-none"></div>
+    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-primary/20 rounded-full blur-[120px] pointer-events-none opacity-50 dark:opacity-20 z-0"></div>
+
+    <!-- Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-6">
+        <nav class="relative bg-white/70 dark:bg-surface/70 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-full px-4 py-2 flex items-center shadow-sm transition-all duration-300 w-full max-w-3xl justify-between md:justify-center reveal-on-scroll">
+            
+            <a href="#home" class="md:hidden text-xl font-bold font-display tracking-tight text-slate-900 dark:text-white hoverable magnetic-btn focus:outline-none relative z-20">
+                nelkael<span class="text-primary">.</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-2 text-sm font-medium relative z-20" id="desktop-menu">
+                <a href="#home" class="nav-link px-4 py-2 rounded-full flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white transition-all hoverable magnetic-btn">
+                    <i class="fas fa-user-circle text-primary"></i><span>Maison</span>
+                </a>
+                <a href="#about" class="nav-link px-4 py-2 rounded-full flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white transition-all hoverable magnetic-btn">
+                    <i class="fas fa-id-card text-primary"></i><span>&Agrave; propos</span>
+                </a>
+                <a href="#work" class="nav-link px-4 py-2 rounded-full flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white transition-all hoverable magnetic-btn">
+                    <i class="fas fa-folder-open text-primary"></i><span>Projets</span>
+                </a>
+                <a href="#services" class="nav-link px-4 py-2 rounded-full flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white transition-all hoverable magnetic-btn">
+                    <i class="fas fa-code text-primary"></i><span>Services</span>
+                </a>
+                <a href="#contact" class="nav-link px-4 py-2 rounded-full flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white transition-all hoverable magnetic-btn">
+                    <i class="far fa-envelope text-primary"></i><span>Contact</span>
+                </a>
+            </div>
+
+            <div class="flex items-center gap-3 md:absolute md:right-4 relative z-20">
+                <button id="theme-toggle" aria-label="Changer le theme" class="w-8 h-8 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors hoverable magnetic-btn focus:outline-none">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button id="mobile-menu-btn" aria-label="Ouvrir le menu" class="md:hidden text-slate-900 dark:text-white p-1 hoverable magnetic-btn focus:outline-none">
+                    <i class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-white/95 dark:bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-all duration-300">
+        <a href="#home" class="text-3xl font-display font-bold mobile-link hover:text-primary hoverable">Maison</a>
+        <a href="#about" class="text-3xl font-display font-bold mobile-link hover:text-primary hoverable">&Agrave; propos</a>
+        <a href="#work" class="text-3xl font-display font-bold mobile-link hover:text-primary hoverable">Projets</a>
+        <a href="#services" class="text-3xl font-display font-bold mobile-link hover:text-primary hoverable">Services</a>
+        <a href="#contact" class="text-3xl font-display font-bold mobile-link hover:text-primary hoverable">Contact</a>
+        <button id="close-menu" aria-label="Fermer le menu" class="absolute top-8 right-8 text-slate-500 hover:text-black dark:hover:text-white hoverable">
+            <i class="fas fa-times text-2xl"></i>
+        </button>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="section-spy relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10 max-w-6xl">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="text-center lg:text-left order-2 lg:order-1">
+                    <div class="hero-badge inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/60 dark:bg-white/5 border border-slate-200 dark:border-white/10 backdrop-blur-sm mb-6">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                        </span>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Disponible pour projets web & cyber</span>
+                    </div>
+
+                    <!-- Masked Text Reveal Animation -->
+<h1 class="font-display text-5xl md:text-7xl lg:text-[5.7rem] font-bold leading-[1.08] md:leading-[0.95] tracking-tight mb-6 text-slate-900 dark:text-white">
+    <div class="hero-heading-line overflow-hidden">
+        <span class="block">Salut, je suis</span>
+    </div>
+    
+    <div class="hero-heading-line overflow-hidden pb-2">
+        <span class="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-secondary animate-gradient-x bg-[length:200%_auto]">Nelka&euml;l</span>
+    </div>
+    
+    <div class="hero-heading-line overflow-hidden">
+        <span class="block text-2xl md:text-4xl lg:text-5xl leading-tight text-slate-700 dark:text-slate-300">Frontend & cyber junior.</span>
+    </div>
+</h1>
+
+                    <p class="hero-description text-lg text-slate-600 dark:text-slate-400 max-w-md mx-auto lg:mx-0 mb-10 leading-relaxed">
+                        D&eacute;veloppeur frontend & analyste cybers&eacute;curit&eacute; junior, je con&ccedil;ois des interfaces modernes, rapides et s&eacute;curis&eacute;es avec un vrai sens du d&eacute;tail.
+                    </p>
+
+                    <div class="hero-terminal max-w-md mx-auto lg:mx-0 mb-8 rounded-2xl border border-slate-200 dark:border-white/10 bg-white/80 dark:bg-surface/80 backdrop-blur-xl p-4 text-left shadow-lg shadow-primary/5">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="w-2.5 h-2.5 rounded-full bg-red-400"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-yellow-400"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-green-400"></span>
+                        </div>
+                        <div class="font-mono text-xs md:text-sm space-y-2">
+                            <p><span class="text-primary">$</span> role --current</p>
+                            <p class="text-slate-500 dark:text-slate-400">frontend developer + junior cyber analyst</p>
+                            <p><span class="text-primary">$</span> status</p>
+                            <p class="text-green-500">available_for_projects: true</p>
+                        </div>
+                    </div>
+
+                    <div class="hero-buttons flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#work" class="group relative px-8 py-3.5 bg-slate-900 dark:bg-white text-white dark:text-black rounded-full font-bold overflow-hidden hover:scale-[1.02] transition-transform shadow-xl shadow-primary/10 hoverable magnetic-btn focus:outline-none">
+                            <span class="relative z-10">Voir mes projets</span>
+                            <div class="absolute inset-0 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
+                        </a>
+                        <a href="#contact" class="flex items-center justify-center w-12 h-12 rounded-full border border-slate-200 dark:border-white/20 hover:border-primary hover:text-primary transition-colors hoverable magnetic-btn focus:outline-none" aria-label="Aller au contact">
+                            <i class="fas fa-arrow-down animate-bounce"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hero-image-container relative h-[400px] md:h-[600px] flex items-center justify-center order-1 lg:order-2 perspective-1000">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-secondary/20 rounded-full blur-3xl animate-pulse-slow"></div>
+                    <div class="hero-circle-outer absolute w-64 h-64 md:w-96 md:h-96 border border-slate-200 dark:border-white/10 rounded-full animate-spin-slow"></div>
+                    <div class="hero-circle-middle absolute w-48 h-48 md:w-72 md:h-72 border border-dashed border-slate-300 dark:border-white/20 rounded-full animate-spin-slow [animation-direction:reverse]"></div>
+                    
+                    <div class="hero-profile-img hero-image-glow relative w-56 h-56 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white dark:border-white/10 shadow-2xl animate-[float_6s_ease-in-out_infinite] z-10 group cursor-pointer hoverable magnetic-btn">
+                        <img src="images/nelkael-header.png" 
+                             alt="Portrait de Tolofon Nelka&euml;l" 
+                             width="800" height="800"
+                             class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stack-marquee-section relative z-10 py-8 border-y border-slate-200 dark:border-white/5 bg-white/40 dark:bg-white/[0.02] overflow-hidden">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="stack-marquee reveal-on-scroll" aria-label="Technologies et outils">
+                <div class="stack-marquee-track">
+                    <div class="stack-marquee-group">
+                        <span class="stack-chip"><i class="fab fa-html5"></i>HTML</span>
+                        <span class="stack-chip"><i class="fab fa-css3-alt"></i>CSS</span>
+                        <span class="stack-chip"><i class="fab fa-js"></i>JavaScript</span>
+                        <span class="stack-chip"><i class="fab fa-react"></i>React</span>
+                        <span class="stack-chip"><i class="fas fa-bolt"></i>Vite</span>
+                        <span class="stack-chip"><i class="fas fa-shield-halved"></i>Kali Linux</span>
+                        <span class="stack-chip"><i class="fas fa-wave-square"></i>Wireshark</span>
+                        <span class="stack-chip"><i class="fas fa-chart-line"></i>SIEM</span>
+                    </div>
+                    <div class="stack-marquee-group" aria-hidden="true">
+                        <span class="stack-chip"><i class="fab fa-html5"></i>HTML</span>
+                        <span class="stack-chip"><i class="fab fa-css3-alt"></i>CSS</span>
+                        <span class="stack-chip"><i class="fab fa-js"></i>JavaScript</span>
+                        <span class="stack-chip"><i class="fab fa-react"></i>React</span>
+                        <span class="stack-chip"><i class="fas fa-bolt"></i>Vite</span>
+                        <span class="stack-chip"><i class="fas fa-shield-halved"></i>Kali Linux</span>
+                        <span class="stack-chip"><i class="fas fa-wave-square"></i>Wireshark</span>
+                        <span class="stack-chip"><i class="fas fa-chart-line"></i>SIEM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section id="about" class="section-spy py-20 bg-white/50 dark:bg-white/5 border-y border-slate-200 dark:border-white/5 backdrop-blur-sm relative z-10">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <h2 class="font-display text-4xl font-bold text-slate-900 dark:text-white mb-12 reveal-on-scroll">Sur moi <span class="text-primary">.</span></h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-12 items-center">
+                <div class="reveal-on-scroll">
+                    <div class="flex items-center gap-4 mb-12">
+                        <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-white dark:border-white/10 shadow-lg shadow-primary/20 bg-slate-200">
+                            <img src="images/nelkael-header.png" alt="Tolofon Nelka&euml;l" class="w-full h-full object-cover object-top">
+                        </div>
+                        <div>
+                            <p class="font-bold text-slate-900 dark:text-white">@neltolofon</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">D&eacute;veloppeur frontend & analyste cybers&eacute;curit&eacute; junior</p>
+                        </div>
+                    </div>
+
+                    <div class="max-w-3xl">
+                        <h3 class="font-display text-3xl md:text-4xl font-bold text-primary mb-6">SUR MOI</h3>
+                        <div class="space-y-5 text-slate-600 dark:text-slate-300 leading-relaxed">
+                            <p>
+                                Salut, je suis Tolofon Nelka&euml;l, &eacute;tudiant en s&eacute;curit&eacute; informatique avec un profil hybride entre d&eacute;veloppement frontend, design UI et analyse SOC.
+                            </p>
+                            <p>
+                                J'aime concevoir des sites professionnels, responsives et &eacute;l&eacute;gants, tout en gardant une attention forte sur la performance, la clart&eacute; du code et la s&eacute;curit&eacute;.
+                            </p>
+                            <p>
+                                Je cr&eacute;e des interfaces web modernes, rapides et s&eacute;curis&eacute;es, avec un regard orient&eacute; cybers&eacute;curit&eacute; et une envie constante de progresser sur des projets concrets.
+                            </p>
+                            <div class="space-y-3 pt-2 text-sm md:text-base">
+                                <p><span class="text-primary font-bold">#</span> HTML, CSS, JavaScript, React et Vite pour le d&eacute;veloppement frontend</p>
+                                <p><span class="text-primary font-bold">#</span> UI / UX Design pour des interfaces claires, modernes et professionnelles</p>
+                                <p><span class="text-primary font-bold">#</span> Kali Linux, Wireshark, SIEM, audit web et analyse de logs pour la cybers&eacute;curit&eacute; junior</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal-on-scroll delay-100">
+                    <div class="spotlight-card bg-white dark:bg-surface border border-slate-200 dark:border-white/10 rounded-3xl p-3 shadow-2xl shadow-primary/10 relative overflow-hidden hoverable">
+                        <div class="spotlight-overlay"></div>
+                        <div class="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
+                        <div class="relative z-10 aspect-[4/5] rounded-2xl overflow-hidden bg-slate-100 dark:bg-black">
+                            <img src="images/nelkael-header.png" alt="Portrait de Tolofon Nelka&euml;l" class="w-full h-full object-cover object-top">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section-spy py-24 relative z-10">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="text-center mb-16 reveal-on-scroll">
+                <h2 class="font-display text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">
+                    Competences<span class="text-primary">.</span>
+                </h2>
+                <p class="text-slate-500 max-w-lg mx-auto">
+                    Un profil hybride entre developpement frontend, design UI et analyse cybersecurite.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-8 rounded-2xl bg-white dark:bg-surface border border-slate-200 dark:border-white/10 hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 group hoverable reveal-on-scroll spotlight-card">
+                    <div class="spotlight-overlay"></div>
+                    <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-6 text-2xl group-hover:bg-primary group-hover:text-white transition-colors relative z-10">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-display text-slate-900 dark:text-white mb-3 relative z-10">Frontend moderne</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed relative z-10">
+                        Integration HTML, CSS, JavaScript, React et Vite pour des interfaces rapides, responsives et soignees.
+                    </p>
+                </div>
+                <div class="p-8 rounded-2xl bg-white dark:bg-surface border border-slate-200 dark:border-white/10 hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 group hoverable reveal-on-scroll delay-100 spotlight-card">
+                    <div class="spotlight-overlay"></div>
+                    <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-6 text-2xl group-hover:bg-primary group-hover:text-white transition-colors relative z-10">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-display text-slate-900 dark:text-white mb-3 relative z-10">UI / UX Design</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed relative z-10">
+                        Conception d'interfaces claires, elegantes et faciles a parcourir, avec une attention forte aux details visuels.
+                    </p>
+                </div>
+                <div class="p-8 rounded-2xl bg-white dark:bg-surface border border-slate-200 dark:border-white/10 hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 group hoverable reveal-on-scroll delay-200 spotlight-card">
+                    <div class="spotlight-overlay"></div>
+                    <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-6 text-2xl group-hover:bg-primary group-hover:text-white transition-colors relative z-10">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-display text-slate-900 dark:text-white mb-3 relative z-10">Cybersecurite junior</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed relative z-10">
+                        Bases solides en Kali Linux, Wireshark, SIEM, audit de surface web, analyse de logs et reflexes SOC.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 relative z-10 bg-white/50 dark:bg-white/[0.02] border-y border-slate-200 dark:border-white/5">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6 reveal-on-scroll">
+                <h2 class="font-display text-4xl md:text-5xl font-bold text-slate-900 dark:text-white">
+                    Process<span class="text-primary">.</span>
+                </h2>
+                <p class="text-slate-500 text-sm md:text-base max-w-sm text-left md:text-right">
+                    Une methode courte pour construire vite, proprement, et garder la securite dans le champ.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="spotlight-card reveal-on-scroll bg-white dark:bg-surface border border-slate-200 dark:border-white/10 rounded-2xl p-6 relative overflow-hidden">
+                    <div class="spotlight-overlay"></div>
+                    <span class="text-primary font-mono text-sm font-bold">01</span>
+                    <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mt-4 mb-3">Analyser</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Comprendre le besoin, les utilisateurs, les contenus et les risques techniques.</p>
+                </div>
+
+                <div class="spotlight-card reveal-on-scroll delay-100 bg-white dark:bg-surface border border-slate-200 dark:border-white/10 rounded-2xl p-6 relative overflow-hidden">
+                    <div class="spotlight-overlay"></div>
+                    <span class="text-primary font-mono text-sm font-bold">02</span>
+                    <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mt-4 mb-3">Concevoir</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Structurer une interface claire, responsive, lisible et coherente avec l'identite du projet.</p>
+                </div>
+
+                <div class="spotlight-card reveal-on-scroll delay-200 bg-white dark:bg-surface border border-slate-200 dark:border-white/10 rounded-2xl p-6 relative overflow-hidden">
+                    <div class="spotlight-overlay"></div>
+                    <span class="text-primary font-mono text-sm font-bold">03</span>
+                    <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mt-4 mb-3">Coder</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Developper avec une base frontend propre, modulaire, rapide et facile a maintenir.</p>
+                </div>
+
+                <div class="spotlight-card reveal-on-scroll delay-300 bg-white dark:bg-surface border border-slate-200 dark:border-white/10 rounded-2xl p-6 relative overflow-hidden">
+                    <div class="spotlight-overlay"></div>
+                    <span class="text-primary font-mono text-sm font-bold">04</span>
+                    <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mt-4 mb-3">Securiser</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Verifier les bases : exposition, formulaires, dependances, logs et bonnes pratiques web.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section-spy py-24 bg-slate-50 dark:bg-[#080808]">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <h2 class="font-display text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-16 text-center reveal-on-scroll">
+                Parcours<span class="text-primary">.</span>
+            </h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bento-card spotlight-card reveal-on-scroll timeline-slide-left bg-white dark:bg-surface border border-slate-200 dark:border-white/10 rounded-3xl p-8 overflow-hidden relative">
+                    <div class="spotlight-overlay"></div>
+                    <div class="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
+                    <div class="relative z-10">
+                        <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white mb-10 flex items-center gap-3">
+                            <i class="fas fa-graduation-cap text-primary text-xl"></i>
+                            Formation
+                        </h3>
+
+                        <div class="relative ml-3 border-l border-slate-200 dark:border-white/10 space-y-10">
+                            <div class="relative pl-8">
+                                <span class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-primary/10"></span>
+                                <p class="text-sm font-extrabold text-primary mb-2">2025 - en cours</p>
+                                <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-1">Licence en S&eacute;curit&eacute; Informatique</h4>
+                                <p class="text-slate-500 dark:text-slate-400">D&eacute;veloppement & cybers&eacute;curit&eacute;</p>
+                            </div>
+
+                            <div class="relative pl-8">
+                                <span class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-primary/10"></span>
+                                <p class="text-sm font-extrabold text-primary mb-2">2024 - 2025</p>
+                                <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-1">Dipl&ocirc;me technique IMI</h4>
+                                <p class="text-slate-500 dark:text-slate-400">Installation et maintenance informatique</p>
+                            </div>
+
+                            <div class="relative pl-8">
+                                <span class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-primary/10"></span>
+                                <p class="text-sm font-extrabold text-primary mb-2">2022 - 2024</p>
+                                <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-1">Formation autodidacte web</h4>
+                                <p class="text-slate-500 dark:text-slate-400">HTML, CSS, JavaScript, UI design</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bento-card spotlight-card reveal-on-scroll timeline-slide-right delay-100 bg-white dark:bg-surface border border-slate-200 dark:border-white/10 rounded-3xl p-8 overflow-hidden relative">
+                    <div class="spotlight-overlay"></div>
+                    <div class="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
+                    <div class="relative z-10">
+                        <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white mb-10 flex items-center gap-3">
+                            <i class="fas fa-briefcase text-primary text-xl"></i>
+                            Exp&eacute;rience
+                        </h3>
+
+                        <div class="relative ml-3 border-l border-slate-200 dark:border-white/10 space-y-10">
+                            <div class="relative pl-8">
+                                <span class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-primary/10"></span>
+                                <p class="text-sm font-extrabold text-primary mb-2">2023 - aujourd'hui</p>
+                                <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-1">D&eacute;veloppeur frontend freelance</h4>
+                                <p class="text-slate-500 dark:text-slate-400">Projets web personnels et clients</p>
+                            </div>
+
+                            <div class="relative pl-8">
+                                <span class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-primary/10"></span>
+                                <p class="text-sm font-extrabold text-primary mb-2">2023 - aujourd'hui</p>
+                                <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-1">Pratique SOC & analyse r&eacute;seau</h4>
+                                <p class="text-slate-500 dark:text-slate-400">Kali Linux, Wireshark, SIEM</p>
+                            </div>
+
+                            <div class="relative pl-8">
+                                <span class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-primary/10"></span>
+                                <p class="text-sm font-extrabold text-primary mb-2">2024 - aujourd'hui</p>
+                                <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-1">Challenges CTF & bug bounty</h4>
+                                <p class="text-slate-500 dark:text-slate-400">D&eacute;tection, exploitation contr&ocirc;l&eacute;e, reporting</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Selected Work -->
+    <section id="work" class="section-spy py-24 relative z-10">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6 reveal-on-scroll">
+                <h2 class="font-display text-4xl md:text-6xl font-bold text-slate-900 dark:text-white">
+                    Projets<br>Selectionnes<span class="text-primary">.</span>
+                </h2>
+                <p class="text-slate-500 text-sm md:text-base max-w-xs text-left md:text-right">
+                   Des interfaces web, dashboards et idees orientees securite pour montrer mon terrain de progression.
+                </p>
+            </div>
+
+            <!-- Project Filters -->
+            <div class="hidden flex-wrap gap-4 mb-16 reveal-on-scroll delay-100" id="portfolio-filters">
+                <button class="filter-btn active px-5 py-2 rounded-full border border-slate-200 dark:border-white/10 text-sm font-bold text-slate-600 dark:text-slate-300 hover:border-primary hover:text-primary transition-all hoverable magnetic-btn" data-filter="all">Tous</button>
+                <button class="filter-btn px-5 py-2 rounded-full border border-slate-200 dark:border-white/10 text-sm font-bold text-slate-600 dark:text-slate-300 hover:border-primary hover:text-primary transition-all hoverable magnetic-btn" data-filter="design">UI / UX</button>
+                <button class="filter-btn px-5 py-2 rounded-full border border-slate-200 dark:border-white/10 text-sm font-bold text-slate-600 dark:text-slate-300 hover:border-primary hover:text-primary transition-all hoverable magnetic-btn" data-filter="dev">Frontend</button>
+                <button class="filter-btn px-5 py-2 rounded-full border border-slate-200 dark:border-white/10 text-sm font-bold text-slate-600 dark:text-slate-300 hover:border-primary hover:text-primary transition-all hoverable magnetic-btn" data-filter="cyber">Cyber</button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" id="projects-grid">
+                
+                <!-- Project 1 -->
+                <article class="project-item spotlight-card group cursor-pointer project-trigger hoverable reveal-on-scroll bg-white dark:bg-surface border border-slate-200 dark:border-white/10 rounded-2xl p-4 shadow-lg shadow-slate-900/5" 
+                         data-filter-category="dev design"
+                         data-title="Portfolio creatif" 
+                         data-category="UI / UX - Frontend"
+                         data-image="images/Cleveroad.jpg" 
+                         data-desc="Un portfolio personnel moderne pour presenter un profil technique, des competences frontend et une identite visuelle professionnelle.">
+                    <div class="spotlight-overlay"></div>
+                    <div class="project-card relative w-full aspect-[4/3] bg-slate-200 dark:bg-black rounded-xl overflow-hidden mb-4 preserve-3d transition-transform duration-300 shadow-lg group-hover:shadow-xl border border-slate-200 dark:border-white/5">
+                        <div class="absolute inset-0 overflow-hidden transform-gpu">
+                             <img src="images/Cleveroad.jpg" 
+                                  loading="lazy"
+                                  width="1200" height="900"
+                                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 parallax-img" alt="Portfolio creatif">
+                             <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                        </div>
+                    </div>
+                    <div class="relative z-10">
+                        <div>
+                            <h3 class="text-lg font-display font-bold text-slate-900 dark:text-white mb-2 group-hover:text-primary transition-colors">Portfolio creatif</h3>
+                            <p class="text-slate-500 text-sm leading-relaxed mb-4">Portfolio personnel pour presenter mon profil, mes competences frontend et mon identite visuelle.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 text-[11px] font-bold text-slate-500 dark:text-slate-400">HTML</span>
+                                <span class="px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 text-[11px] font-bold text-slate-500 dark:text-slate-400">CSS</span>
+                                <span class="px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 text-[11px] font-bold text-slate-500 dark:text-slate-400">Frontend</span>
+                            </div>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="px-4 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black text-xs font-bold"><i class="fab fa-github mr-2"></i>GitHub</span>
+                                <span class="px-4 py-2 rounded-full bg-primary text-white text-xs font-bold"><i class="fas fa-up-right-from-square mr-2"></i>Demo en direct</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 2 -->
+                <article class="project-item spotlight-card group cursor-pointer project-trigger hoverable reveal-on-scroll delay-100 bg-white dark:bg-surface border border-slate-200 dark:border-white/10 rounded-2xl p-4 shadow-lg shadow-slate-900/5"
+                         data-filter-category="dev cyber"
+                         data-title="Dashboard d'analyse SOC" 
+                         data-category="Cyber - Dashboard"
+                         data-image="images/Game Dashboard Design.jpg"
+                         data-desc="Concept de tableau de bord pour suivre des alertes, explorer des logs et rendre les signaux de securite plus lisibles.">
+                    <div class="spotlight-overlay"></div>
+                    <div class="project-card relative w-full aspect-[4/3] bg-slate-200 dark:bg-black rounded-xl overflow-hidden mb-4 preserve-3d transition-transform duration-300 shadow-lg group-hover:shadow-xl border border-slate-200 dark:border-white/5">
+                        <div class="absolute inset-0 overflow-hidden transform-gpu">
+                             <img src="images/Game Dashboard Design.jpg" 
+                                  loading="lazy"
+                                  width="1200" height="900"
+                                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 parallax-img" alt="Dashboard d'analyse SOC">
+                             <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                        </div>
+                    </div>
+                    <div class="relative z-10">
+                        <div>
+                            <h3 class="text-lg font-display font-bold text-slate-900 dark:text-white mb-2 group-hover:text-primary transition-colors">Dashboard d'analyse SOC</h3>
+                            <p class="text-slate-500 text-sm leading-relaxed mb-4">Concept de tableau de bord pour suivre des alertes, explorer des logs et rendre les signaux de securite lisibles.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 text-[11px] font-bold text-slate-500 dark:text-slate-400">SOC</span>
+                                <span class="px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 text-[11px] font-bold text-slate-500 dark:text-slate-400">SIEM</span>
+                                <span class="px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 text-[11px] font-bold text-slate-500 dark:text-slate-400">Dashboard</span>
+                            </div>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="px-4 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black text-xs font-bold"><i class="fab fa-github mr-2"></i>GitHub</span>
+                                <span class="px-4 py-2 rounded-full bg-primary text-white text-xs font-bold"><i class="fas fa-up-right-from-square mr-2"></i>Demo en direct</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 3 -->
+                <article class="project-item spotlight-card group cursor-pointer project-trigger hoverable reveal-on-scroll bg-white dark:bg-surface border border-slate-200 dark:border-white/10 rounded-2xl p-4 shadow-lg shadow-slate-900/5"
+                         data-filter-category="design dev"
+                         data-title="Interface vitrine securisee" 
+                         data-category="Website - Audit web"
+                         data-image="images/capture-web.png"
+                         data-desc="Une page vitrine professionnelle pensee pour la confiance, la clarte, la performance et les bonnes pratiques de base en securite web.">
+                    <div class="spotlight-overlay"></div>
+                    <div class="project-card relative w-full aspect-[4/3] bg-slate-200 dark:bg-black rounded-xl overflow-hidden mb-4 preserve-3d transition-transform duration-300 shadow-lg group-hover:shadow-xl border border-slate-200 dark:border-white/5">
+                        <div class="absolute inset-0 overflow-hidden transform-gpu">
+                             <img src="images/capture-web.png" 
+                                  loading="lazy"
+                                  width="1200" height="900"
+                                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 parallax-img" alt="Interface vitrine securisee">
+                             <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                        </div>
+                    </div>
+                    <div class="relative z-10">
+                        <div>
+                            <h3 class="text-lg font-display font-bold text-slate-900 dark:text-white mb-2 group-hover:text-primary transition-colors">Interface vitrine securisee</h3>
+                            <p class="text-slate-500 text-sm leading-relaxed mb-4">Page vitrine professionnelle pensee pour la confiance, la clarte, la performance et les bonnes pratiques web.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 text-[11px] font-bold text-slate-500 dark:text-slate-400">HTML</span>
+                                <span class="px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 text-[11px] font-bold text-slate-500 dark:text-slate-400">Audit web</span>
+                                <span class="px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 text-[11px] font-bold text-slate-500 dark:text-slate-400">UI</span>
+                            </div>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="px-4 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black text-xs font-bold"><i class="fab fa-github mr-2"></i>GitHub</span>
+                                <span class="px-4 py-2 rounded-full bg-primary text-white text-xs font-bold"><i class="fas fa-up-right-from-square mr-2"></i>Demo en direct</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 4 -->
+                <article class="project-item spotlight-card group cursor-pointer project-trigger hoverable reveal-on-scroll delay-100 bg-white dark:bg-surface border border-slate-200 dark:border-white/10 rounded-2xl p-4 shadow-lg shadow-slate-900/5"
+                         data-filter-category="design dev"
+                         data-title="Experience UI premium" 
+                         data-category="Design system - Frontend"
+                         data-image="images/Task manager app.jpg" 
+                         data-desc="Prototype d'interface premium avec composants clairs, micro-interactions et experience responsive.">
+                    <div class="spotlight-overlay"></div>
+                    <div class="project-card relative w-full aspect-[4/3] bg-slate-200 dark:bg-black rounded-xl overflow-hidden mb-4 preserve-3d transition-transform duration-300 shadow-lg group-hover:shadow-xl border border-slate-200 dark:border-white/5">
+                        <div class="absolute inset-0 overflow-hidden transform-gpu">
+                             <img src="images/Task manager app.jpg" 
+                                  loading="lazy"
+                                  width="1200" height="900"
+                                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 parallax-img" alt="Experience UI premium">
+                             <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                        </div>
+                    </div>
+                    <div class="relative z-10">
+                        <div>
+                            <h3 class="text-lg font-display font-bold text-slate-900 dark:text-white mb-2 group-hover:text-primary transition-colors">Experience UI premium</h3>
+                            <p class="text-slate-500 text-sm leading-relaxed mb-4">Prototype d'interface premium avec composants clairs, micro-interactions et experience responsive.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 text-[11px] font-bold text-slate-500 dark:text-slate-400">UI / UX</span>
+                                <span class="px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 text-[11px] font-bold text-slate-500 dark:text-slate-400">CSS</span>
+                                <span class="px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 text-[11px] font-bold text-slate-500 dark:text-slate-400">JS</span>
+                            </div>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="px-4 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black text-xs font-bold"><i class="fab fa-github mr-2"></i>GitHub</span>
+                                <span class="px-4 py-2 rounded-full bg-primary text-white text-xs font-bold"><i class="fas fa-up-right-from-square mr-2"></i>Demo en direct</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 5 -->
+                <article class="project-item spotlight-card group cursor-pointer project-trigger hoverable reveal-on-scroll bg-white dark:bg-surface border border-slate-200 dark:border-white/10 rounded-2xl p-4 shadow-lg shadow-slate-900/5"
+                         data-filter-category="cyber"
+                         data-title="Audit de surface web" 
+                         data-category="Cyber - Audit"
+                         data-image="images/nelkael-header.png" 
+                         data-desc="Exercice de cartographie d'une surface web : points d'exposition, premiers controles, hygiene de configuration et pistes de durcissement.">
+                    <div class="spotlight-overlay"></div>
+                    <div class="project-card relative w-full aspect-[4/3] bg-slate-200 dark:bg-black rounded-xl overflow-hidden mb-4 preserve-3d transition-transform duration-300 shadow-lg group-hover:shadow-xl border border-slate-200 dark:border-white/5">
+                        <div class="absolute inset-0 overflow-hidden transform-gpu bg-slate-950">
+                             <img src="images/nelkael-header.png" 
+                                  loading="lazy"
+                                  width="1200" height="900"
+                                  class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105 parallax-img" alt="Audit de surface web">
+                             <div class="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                        </div>
+                    </div>
+                    <div class="relative z-10">
+                        <div>
+                            <h3 class="text-lg font-display font-bold text-slate-900 dark:text-white mb-2 group-hover:text-primary transition-colors">Audit de surface web</h3>
+                            <p class="text-slate-500 text-sm leading-relaxed mb-4">Exercice de cartographie d'une surface web, points d'exposition et pistes de durcissement.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 text-[11px] font-bold text-slate-500 dark:text-slate-400">Kali</span>
+                                <span class="px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 text-[11px] font-bold text-slate-500 dark:text-slate-400">Audit</span>
+                                <span class="px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 text-[11px] font-bold text-slate-500 dark:text-slate-400">Cyber</span>
+                            </div>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="px-4 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black text-xs font-bold"><i class="fab fa-github mr-2"></i>GitHub</span>
+                                <span class="px-4 py-2 rounded-full bg-primary text-white text-xs font-bold"><i class="fas fa-up-right-from-square mr-2"></i>Demo en direct</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 6 -->
+                <article class="project-item spotlight-card group cursor-pointer project-trigger hoverable reveal-on-scroll delay-100 bg-white dark:bg-surface border border-slate-200 dark:border-white/10 rounded-2xl p-4 shadow-lg shadow-slate-900/5"
+                         data-filter-category="design cyber dev"
+                         data-title="Systeme d'identite digitale" 
+                         data-category="Identite - Securite"
+                         data-image="images/Cleveroad.jpg" 
+                         data-desc="Concept d'identite digitale sobre et securisee, avec parcours clair, composants reutilisables et signaux de confiance visibles.">
+                    <div class="spotlight-overlay"></div>
+                    <div class="project-card relative w-full aspect-[4/3] bg-slate-200 dark:bg-black rounded-xl overflow-hidden mb-4 preserve-3d transition-transform duration-300 shadow-lg group-hover:shadow-xl border border-slate-200 dark:border-white/5">
+                        <div class="absolute inset-0 overflow-hidden transform-gpu">
+                             <img src="images/Cleveroad.jpg" 
+                                  loading="lazy"
+                                  width="1200" height="900"
+                                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 parallax-img" alt="Systeme d'identite digitale">
+                             <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                        </div>
+                    </div>
+                    <div class="relative z-10">
+                        <div>
+                            <h3 class="text-lg font-display font-bold text-slate-900 dark:text-white mb-2 group-hover:text-primary transition-colors">Systeme d'identite digitale</h3>
+                            <p class="text-slate-500 text-sm leading-relaxed mb-4">Concept d'identite digitale sobre et securisee, avec parcours clair et signaux de confiance visibles.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 text-[11px] font-bold text-slate-500 dark:text-slate-400">Identite</span>
+                                <span class="px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 text-[11px] font-bold text-slate-500 dark:text-slate-400">Securite</span>
+                                <span class="px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 text-[11px] font-bold text-slate-500 dark:text-slate-400">Frontend</span>
+                            </div>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="px-4 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black text-xs font-bold"><i class="fab fa-github mr-2"></i>GitHub</span>
+                                <span class="px-4 py-2 rounded-full bg-primary text-white text-xs font-bold"><i class="fas fa-up-right-from-square mr-2"></i>Demo en direct</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+            
+            <div class="text-center mt-24">
+                <a href="https://github.com/neltolofon-dot" target="_blank" rel="noopener noreferrer" class="inline-block px-8 py-3 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all text-sm font-semibold tracking-wide hoverable magnetic-btn focus:outline-none">
+                    Voir plus sur GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="contact" class="section-spy py-24 md:py-32 relative overflow-hidden bg-slate-100 dark:bg-[#080808]">
+        <div class="absolute inset-0 bg-grid-pattern opacity-30 pointer-events-none"></div>
+        
+        <div class="container mx-auto px-6 relative z-10 max-w-5xl">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="text-center lg:text-left">
+                    <h2 class="font-display text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6 tracking-tighter leading-tight reveal-on-scroll">
+                        Construisons une interface utile.<br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Claire et securisee.</span>
+                    </h2>
+                    <p class="text-slate-500 mb-8 text-lg reveal-on-scroll delay-100">
+                        Pour un site, une interface, un dashboard ou une collaboration autour du frontend et de la cybersecurite junior.
+                    </p>
+                    <div class="space-y-4 text-left hidden lg:block reveal-on-scroll delay-200">
+                        <div class="flex items-center gap-4 text-slate-600 dark:text-slate-400">
+                            <i class="fas fa-envelope text-primary w-6"></i>
+                            <a href="mailto:tolofonnelkael@gmail.com" class="hover:text-primary transition-colors">tolofonnelkael@gmail.com</a>
+                        </div>
+                        <div class="flex items-center gap-4 text-slate-600 dark:text-slate-400">
+                            <i class="fab fa-whatsapp text-primary w-6"></i>
+                            <a href="https://wa.me/2290152178488" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">+229 01 52 17 84 88</a>
+                        </div>
+                        <div class="flex items-center gap-4 text-slate-600 dark:text-slate-400">
+                            <i class="fas fa-map-marker-alt text-primary w-6"></i>
+                            <span>Benin</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="bg-white dark:bg-surface p-8 rounded-3xl shadow-xl border border-slate-200 dark:border-white/10 reveal-on-scroll delay-300">
+                    <form class="space-y-6" id="contact-form">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Nom</label>
+                            <input type="text" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all dark:text-white hoverable magnetic-btn" placeholder="Votre nom" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Email</label>
+                            <input type="email" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all dark:text-white hoverable magnetic-btn" placeholder="email@exemple.com" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Message</label>
+                            <textarea rows="4" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all dark:text-white hoverable magnetic-btn" placeholder="Parlez-moi de votre projet..." required></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-4 bg-slate-900 dark:bg-white text-white dark:text-black rounded-xl font-bold text-lg hover:scale-[1.02] transition-transform shadow-lg hoverable magnetic-btn focus:outline-none">
+                            Envoyer le message
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <footer class="mt-24 pt-8 border-t border-slate-200 dark:border-white/10 flex flex-col md:flex-row justify-between items-center text-sm text-slate-500 reveal-on-scroll">
+                <div class="flex gap-6 mb-4 md:mb-0">
+                    <a href="https://www.linkedin.com/in/nelka%C3%ABl-tolofon-243443375/" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors hoverable focus:outline-none magnetic-btn">LinkedIn</a>
+                    <a href="https://www.instagram.com/neltlf01?igsh=MWR5Y3czMHUzNzVyNg==" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors hoverable focus:outline-none magnetic-btn">Instagram</a>
+                    <a href="https://github.com/neltolofon-dot" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors hoverable focus:outline-none magnetic-btn">GitHub</a>
+                    <a href="https://x.com/TolofonNel" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors hoverable focus:outline-none magnetic-btn">X</a>
+                </div>
+                <div>&copy; <span id="year">2026</span> Tolofon Nelka&euml;l. Tous droits reserves.</div>
+            </footer>
+        </div>
+    </section>
+
+    <div id="project-modal" class="fixed inset-0 z-[100] hidden">
+
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity opacity-0" id="modal-backdrop"></div>
+        
+        <div class="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
+            <div class="bg-white dark:bg-[#111] w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl transform scale-95 opacity-0 transition-all duration-300 pointer-events-auto border border-slate-200 dark:border-white/10" id="modal-content">
+                <div class="relative">
+
+                    <button id="close-modal" aria-label="Fermer le projet" class="absolute top-4 right-4 w-10 h-10 bg-white/50 dark:bg-black/50 backdrop-blur rounded-full flex items-center justify-center text-slate-900 dark:text-white hover:bg-red-500 hover:text-white transition-colors z-10 hoverable focus:outline-none">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    
+                    <div class="h-64 md:h-96 w-full overflow-hidden">
+                        <img id="modal-image" src="" class="w-full h-full object-cover" alt="Detail du projet">
+                    </div>
+
+                    <div class="p-8 md:p-12">
+                        <div class="flex flex-col md:flex-row justify-between items-start gap-4 mb-6">
+                            <div>
+                                <span id="modal-category" class="text-primary font-bold text-sm tracking-widest uppercase mb-2 block">Categorie</span>
+                                <h2 id="modal-title" class="text-3xl md:text-5xl font-display font-bold text-slate-900 dark:text-white">Titre du projet</h2>
+                            </div>
+                            <a href="https://github.com/neltolofon-dot" target="_blank" rel="noopener noreferrer" class="px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-black rounded-full font-bold text-sm hover:scale-105 transition-transform whitespace-nowrap hoverable focus:outline-none">
+                                Voir le profil <i class="fas fa-external-link-alt ml-2"></i>
+                            </a>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                            <div class="md:col-span-2">
+                                <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4">A propos du projet</h3>
+                                <p id="modal-desc" class="text-slate-600 dark:text-slate-300 leading-relaxed text-lg">
+                                    La description du projet apparait ici.
+                                </p>
+                            </div>
+                            <div class="space-y-6">
+                                <div>
+                                    <h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2">Technologies</h4>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-3 py-1 bg-slate-100 dark:bg-white/10 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300">React</span>
+                                        <span class="px-3 py-1 bg-slate-100 dark:bg-white/10 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300">Vite</span>
+                                        <span class="px-3 py-1 bg-slate-100 dark:bg-white/10 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300">Cyber</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2">Annee</h4>
+                                    <p class="text-slate-600 dark:text-slate-400">2026</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="https://wa.me/2290152178488" target="_blank" rel="noopener noreferrer" aria-label="Chat WhatsApp" class="fixed bottom-8 right-8 z-[60] w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300 hoverable magnetic-btn group">
+        <span class="absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-30 animate-ping"></span>
+        <i class="fab fa-whatsapp text-3xl leading-none z-10 group-hover:rotate-12 transition-transform"></i>
+    </a>
+
+    <button id="scrollToTopBtn" aria-label="Retour en haut" class="fixed bottom-28 right-8 z-50 w-12 h-12 bg-white dark:bg-surface border border-slate-200 dark:border-white/20 rounded-full flex items-center justify-center text-slate-600 dark:text-white shadow-lg translate-y-20 opacity-0 transition-all duration-300 hover:border-primary hover:text-primary hover:-translate-y-1 hoverable focus:outline-none">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+
+    <script src="script.js"></script>
+</body>
+</html>
